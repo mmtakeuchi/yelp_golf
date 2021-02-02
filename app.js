@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const Course = require("./models/golf_course");
 
 mongoose.connect("mongodb://localhost:27017/yelp-golf", {
   useNewUrlParser: true,
@@ -21,6 +22,15 @@ app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (req, res) => {
   res.render("home");
+});
+
+app.get("/golfcourse", async (req, res) => {
+  const course = new Course({
+    name: "CG Golf Course",
+    description: "nice phoenix golf course",
+  });
+  await course.save();
+  res.send(course);
 });
 
 app.listen(3000, () => {
