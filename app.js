@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const methodOverride = require("method-override");
 const Course = require("./models/golf_course");
 
 mongoose.connect("mongodb://localhost:27017/yelp-golf", {
@@ -21,6 +22,7 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -44,6 +46,17 @@ app.post("/golfcourses", async (req, res) => {
 app.get("/golfcourses/:id", async (req, res) => {
   const course = await Course.findById(req.params.id);
   res.render("golf_courses/show", { course });
+});
+
+app.get("/golfcourses/:id/edit", async (req, res) => {
+  const course = await Course.findById(req.params.id);
+  res.render("golf_courses/edit", { course });
+});
+
+app.put("/golfcourses/:id", async (req, res) => {
+  const { id } = req.params;
+  const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
+  res.redirect(`/golfcourses/${course._id}`);
 });
 
 app.listen(3000, () => {
