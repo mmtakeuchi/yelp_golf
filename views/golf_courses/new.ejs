@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>New Golf Course</title>
+  </head>
+  <body>
+    <form action="/golfcourses" method="POST">
+      <div>
+        <label for="name">Name</label>
+        <input type="text" id="name" name="course[name]" />
+      </div>
+      <div>
+        <label for="location">Location</label>
+        <input type="text" id="location" name="course[location]" />
+      </div>
+      <button>Add Golf Course</button>
+    </form>
+
+    <div><a href="/golfcourses">Back to Golf Courses</a></div>
+  </body>
+</html>

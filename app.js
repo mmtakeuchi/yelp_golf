@@ -20,6 +20,8 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -27,6 +29,16 @@ app.get("/", (req, res) => {
 app.get("/golfcourses", async (req, res) => {
   const courses = await Course.find({});
   res.render("golf_courses/index", { courses });
+});
+
+app.get("/golfcourses/new", (req, res) => {
+  res.render("golf_courses/new");
+});
+
+app.post("/golfcourses", async (req, res) => {
+  const course = new Course(req.body.course);
+  await course.save();
+  res.redirect(`/golfcourses/${course._id}`);
 });
 
 app.get("/golfcourses/:id", async (req, res) => {
