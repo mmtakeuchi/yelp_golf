@@ -29,6 +29,11 @@ app.get("/golfcourses", async (req, res) => {
   res.render("golf_courses/index", { courses });
 });
 
+app.get("/golfcourses/:id", async (req, res) => {
+  const course = await Course.findById(req.params.id);
+  res.render("golf_courses/show", { course });
+});
+
 app.listen(3000, () => {
   console.log("Serving on port 3000");
 });

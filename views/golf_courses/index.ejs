@@ -9,7 +9,7 @@
     <h1>All Golf Courses</h1>
     <ul>
       <% for (let course of courses){%>
-      <li><%= course.name %></li>
+      <li><a href="/golfcourses/<%= course._id %>"><%= course.name %></a></li>
       <% }%>
     </ul>
   </body>
