@@ -1,28 +1,70 @@
 <% layout('layouts/boilerplate') %>
-<form action="/golfcourses/<%=course._id%>?_method=PUT" method="POST">
-  <div class="mb-3">
-    <label class="form-label" for="name">Name</label>
-    <input
-      class="form-control"
-      type="text"
-      id="name"
-      name="course[name]"
-      value="<%= course.name %>"
-    />
-  </div>
-  <div class="mb-3">
-    <label class="form-label" for="location">Location</label>
-    <input
-      class="form-control"
-      type="text"
-      id="location"
-      name="course[location]"
-      value="<%= course.location %>"
-    />
-  </div>
-  <div class="mb-3">
-    <button class="btn btn-primary">Update Golf Course</button>
-  </div>
-</form>
+<div class="row">
+  <h1 class="text-center">Update Golf Course</h1>
+  <div class="col-6 offset-3">
+    <form action="/golfcourses/<%=course._id%>?_method=PUT" method="POST">
+      <div class="mb-3">
+        <label class="form-label" for="name">Name</label>
+        <input
+          class="form-control"
+          type="text"
+          id="name"
+          name="course[name]"
+          value="<%=course.name %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Image Url</label>
+        <input
+          class="form-control"
+          type="text"
+          id="image"
+          name="course[image]"
+          value="<%=course.image %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea
+          class="form-control"
+          type="text"
+          id="description"
+          name="course[description]"
+        >
+<%= course.description%></textarea
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location</label>
+        <input
+          class="form-control"
+          type="text"
+          id="location"
+          name="course[location]"
+          value="<%=course.location %>"
+        />
+      </div>
 
-<div><a href="/golfcourses/<%= course._id %>">Back to Golf Course</a></div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Tee Price</label>
+        <div class="input-group">
+          <span class="input-group-text" id="price-label">$</span>
+          <input
+            type="text"
+            class="form-control"
+            id="price"
+            placeholder="0.00"
+            aria-label="price"
+            aria-describedby="price-label"
+            name="course[price]"
+            value="<%=course.price %>"
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-info">Update Golf Course</button>
+      </div>
+    </form>
+    <a href="/golfcourses/<%= course._id%>">Back To Golf Course</a>
+  </div>
+</div>
