@@ -1,13 +1,37 @@
 <% layout('layouts/boilerplate') %>
+<!-- <img src="<%= course.image%>" alt="<%= course.name %>" />
 <h1><%= course.name %></h1>
 <h2><%= course.location %></h2>
+<h2><%= course.description %></h2>
+<h3>$<%= course.price %></h3> -->
 
-<p>
-    <form action="/golfcourses/<%= course._id %>?_method=DELETE" method="POST">
-        <button>Delete</button>
-    </form>
-</p>
-<div>
-    <a href="/golfcourses/<%= course._id %>/edit">Edit</a><br />
-    <a href="/golfcourses">All Golf Courses</a>
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="card mb-3">
+      <img src="<%= course.image%>" class="card-img-top" alt="..." />
+      <div class="card-body">
+        <h5 class="card-title"><%= course.name%></h5>
+        <p class="card-text"><%= course.description%></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted"><%= course.location%></li>
+        <li class="list-group-item">$<%= course.price%></li>
+      </ul>
+      <div class="card-body">
+        <a
+          class="card-link btn btn-info"
+          href="/golfcourses/<%=course._id%>/edit"
+          >Edit</a
+        >
+        <form
+          class="d-inline"
+          action="/golfcourses/<%=course._id%>?_method=DELETE"
+          method="POST"
+        >
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+      <div class="card-footer text-muted">2 days ago</div>
+    </div>
+  </div>
 </div>

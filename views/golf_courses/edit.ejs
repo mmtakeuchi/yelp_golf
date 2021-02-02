@@ -1,24 +1,28 @@
 <% layout('layouts/boilerplate') %>
 <form action="/golfcourses/<%=course._id%>?_method=PUT" method="POST">
-  <div>
-    <label for="name">Name</label>
+  <div class="mb-3">
+    <label class="form-label" for="name">Name</label>
     <input
+      class="form-control"
       type="text"
       id="name"
       name="course[name]"
       value="<%= course.name %>"
     />
   </div>
-  <div>
-    <label for="location">Location</label>
+  <div class="mb-3">
+    <label class="form-label" for="location">Location</label>
     <input
+      class="form-control"
       type="text"
       id="location"
       name="course[location]"
       value="<%= course.location %>"
     />
   </div>
-  <button>Update Golf Course</button>
+  <div class="mb-3">
+    <button class="btn btn-primary">Update Golf Course</button>
+  </div>
 </form>
 
 <div><a href="/golfcourses/<%= course._id %>">Back to Golf Course</a></div>

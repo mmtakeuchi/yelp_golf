@@ -3,8 +3,24 @@
 <div>
   <a href="/golfcourses/new">Add Golf Course</a>
 </div>
-<ul>
-  <% for (let course of courses){%>
-  <li><a href="/golfcourses/<%= course._id %>"><%= course.name %></a></li>
-  <% }%>
-</ul>
+<% for (let course of courses){%>
+<div class="card" mb-3>
+  <div class="row">
+    <div class="col-md-4">
+      <img class="img-fluid" alt="" src="<%=course.image%>" />
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title"><%= course.name %></h5>
+        <p class="card-text"><%= course.description %></p>
+        <p class="card-text">
+          <small class="text-muted"><%= course.location%></small>
+        </p>
+        <a class="btn btn-primary" href="/golfcourses/<%=course._id%>"
+          >View <%=course.name%></a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+<% }%>
