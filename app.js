@@ -24,13 +24,9 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.get("/golfcourse", async (req, res) => {
-  const course = new Course({
-    name: "CG Golf Course",
-    description: "nice phoenix golf course",
-  });
-  await course.save();
-  res.send(course);
+app.get("/golfcourses", async (req, res) => {
+  const courses = await Course.find({});
+  res.render("golf_courses/index", { courses });
 });
 
 app.listen(3000, () => {
