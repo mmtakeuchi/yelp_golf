@@ -9,6 +9,11 @@
     <h1><%= course.name %></h1>
     <h2><%= course.location %></h2>
 
+    <p>
+        <form action="/golfcourses/<%= course._id %>?_method=DELETE" method="POST">
+            <button>Delete</button>
+        </form>
+    </p>
     <div>
       <a href="/golfcourses/<%= course._id %>/edit">Edit</a><br />
       <a href="/golfcourses">All Golf Courses</a>

@@ -59,6 +59,12 @@ app.put("/golfcourses/:id", async (req, res) => {
   res.redirect(`/golfcourses/${course._id}`);
 });
 
+app.delete("/golfcourses/:id", async (req, res) => {
+  const { id } = req.params;
+  await Course.findByIdAndDelete(id);
+  res.redirect("/golfcourses");
+});
+
 app.listen(3000, () => {
   console.log("Serving on port 3000");
 });
