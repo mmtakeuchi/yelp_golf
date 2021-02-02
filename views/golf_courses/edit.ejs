@@ -1,33 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Update Golf Course</title>
-  </head>
-  <body>
-    <form action="/golfcourses/<%=course._id%>?_method=PUT" method="POST">
-      <div>
-        <label for="name">Name</label>
-        <input
-          type="text"
-          id="name"
-          name="course[name]"
-          value="<%= course.name %>"
-        />
-      </div>
-      <div>
-        <label for="location">Location</label>
-        <input
-          type="text"
-          id="location"
-          name="course[location]"
-          value="<%= course.location %>"
-        />
-      </div>
-      <button>Update Golf Course</button>
-    </form>
+<% layout('../layout/boilerplate') %>
+<form action="/golfcourses/<%=course._id%>?_method=PUT" method="POST">
+  <div>
+    <label for="name">Name</label>
+    <input
+      type="text"
+      id="name"
+      name="course[name]"
+      value="<%= course.name %>"
+    />
+  </div>
+  <div>
+    <label for="location">Location</label>
+    <input
+      type="text"
+      id="location"
+      name="course[location]"
+      value="<%= course.location %>"
+    />
+  </div>
+  <button>Update Golf Course</button>
+</form>
 
-    <div><a href="/golfcourses/<%= course._id %>">Back to Golf Course</a></div>
-  </body>
-</html>
+<div><a href="/golfcourses/<%= course._id %>">Back to Golf Course</a></div>

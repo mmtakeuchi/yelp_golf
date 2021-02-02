@@ -1,19 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=, initial-scale=1.0" />
-    <title>Golf Courses</title>
-  </head>
-  <body>
-    <h1>All Golf Courses</h1>
-    <div>
-      <a href="/golfcourses/new">Add Golf Course</a>
-    </div>
-    <ul>
-      <% for (let course of courses){%>
-      <li><a href="/golfcourses/<%= course._id %>"><%= course.name %></a></li>
-      <% }%>
-    </ul>
-  </body>
-</html>
+<% layout('../layout/boilerplate') %>
+<h1>All Golf Courses</h1>
+<div>
+  <a href="/golfcourses/new">Add Golf Course</a>
+</div>
+<ul>
+  <% for (let course of courses){%>
+  <li><a href="/golfcourses/<%= course._id %>"><%= course.name %></a></li>
+  <% }%>
+</ul>

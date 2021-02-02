@@ -1,22 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Golf Course</title>
-  </head>
-  <body>
-    <h1><%= course.name %></h1>
-    <h2><%= course.location %></h2>
+<% layout('../layout/boilerplate') %>
+<h1><%= course.name %></h1>
+<h2><%= course.location %></h2>
 
-    <p>
-        <form action="/golfcourses/<%= course._id %>?_method=DELETE" method="POST">
-            <button>Delete</button>
-        </form>
-    </p>
-    <div>
-      <a href="/golfcourses/<%= course._id %>/edit">Edit</a><br />
-      <a href="/golfcourses">All Golf Courses</a>
-    </div>
-  </body>
-</html>
+<p>
+    <form action="/golfcourses/<%= course._id %>?_method=DELETE" method="POST">
+        <button>Delete</button>
+    </form>
+</p>
+<div>
+    <a href="/golfcourses/<%= course._id %>/edit">Edit</a><br />
+    <a href="/golfcourses">All Golf Courses</a>
+</div>
