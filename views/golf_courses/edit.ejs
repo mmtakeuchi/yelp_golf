@@ -2,7 +2,12 @@
 <div class="row">
   <h1 class="text-center">Update Golf Course</h1>
   <div class="col-6 offset-3">
-    <form action="/golfcourses/<%=course._id%>?_method=PUT" method="POST">
+    <form
+      action="/golfcourses/<%=course._id%>?_method=PUT"
+      method="POST"
+      novalidate
+      class="validated-form"
+    >
       <div class="mb-3">
         <label class="form-label" for="name">Name</label>
         <input
@@ -11,6 +16,7 @@
           id="name"
           name="course[name]"
           value="<%=course.name %>"
+          required
         />
       </div>
       <div class="mb-3">
@@ -21,6 +27,7 @@
           id="image"
           name="course[image]"
           value="<%=course.image %>"
+          required
         />
       </div>
       <div class="mb-3">
@@ -30,6 +37,7 @@
           type="text"
           id="description"
           name="course[description]"
+          required
         >
 <%= course.description%></textarea
         >
@@ -42,6 +50,7 @@
           id="location"
           name="course[location]"
           value="<%=course.location %>"
+          required
         />
       </div>
 
@@ -58,6 +67,7 @@
             aria-describedby="price-label"
             name="course[price]"
             value="<%=course.price %>"
+            required
           />
         </div>
       </div>
