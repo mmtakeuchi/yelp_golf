@@ -1,8 +1,10 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const catchAsync = require("./utils/catchAsync");
+const ExpressError = require("./utils/ExpressError");
+const methodOverride = require("method-override");
 const Course = require("./models/golf_course");
 
 mongoose.connect("mongodb://localhost:27017/yelp-golf", {
@@ -30,41 +32,63 @@ app.get("/", (req, res) => {
   res.render("home");
 });
 
-app.get("/golfcourses", async (req, res) => {
-  const courses = await Course.find({});
-  res.render("golf_courses/index", { courses });
-});
+app.get(
+  "/golfcourses",
+  catchAsync(async (req, res) => {
+    const courses = await Course.find({});
+    res.render("golf_courses/index", { courses });
+  })
+);
 
 app.get("/golfcourses/new", (req, res) => {
   res.render("golf_courses/new");
 });
 
-app.post("/golfcourses", async (req, res) => {
-  const course = new Course(req.body.course);
-  await course.save();
-  res.redirect(`/golfcourses/${course._id}`);
-});
+app.post(
+  "/golfcourses",
+  catchAsync(async (req, res, next) => {
+    const course = new Course(req.body.course);
+    await course.save();
+    res.redirect(`/golfcourses/${course._id}`);
+  })
+);
 
-app.get("/golfcourses/:id", async (req, res) => {
-  const course = await Course.findById(req.params.id);
-  res.render("golf_courses/show", { course });
-});
+app.get(
+  "/golfcourses/:id",
+  catchAsync(async (req, res) => {
+    const course = await Course.findById(req.params.id);
+    res.render("golf_courses/show", { course });
+  })
+);
 
-app.get("/golfcourses/:id/edit", async (req, res) => {
-  const course = await Course.findById(req.params.id);
-  res.render("golf_courses/edit", { course });
-});
+app.get(
+  "/golfcourses/:id/edit",
+  catchAsync(async (req, res) => {
+    const course = await Course.findById(req.params.id);
+    res.render("golf_courses/edit", { course });
+  })
+);
 
-app.put("/golfcourses/:id", async (req, res) => {
-  const { id } = req.params;
-  const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
-  res.redirect(`/golfcourses/${course._id}`);
-});
+app.put(
+  "/golfcourses/:id",
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
+    res.redirect(`/golfcourses/${course._id}`);
+  })
+);
 
-app.delete("/golfcourses/:id", async (req, res) => {
-  const { id } = req.params;
-  await Course.findByIdAndDelete(id);
-  res.redirect("/golfcourses");
+app.delete(
+  "/golfcourses/:id",
+  catchAsync(async (req, res) => {
+    const { id } = req.params;
+    await Course.findByIdAndDelete(id);
+    res.redirect("/golfcourses");
+  })
+);
+
+app.use((err, req, res, next) => {
+  res.send("Somethings wrong!");
 });
 
 app.listen(3000, () => {
