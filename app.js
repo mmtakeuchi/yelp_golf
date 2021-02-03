@@ -3,6 +3,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const Joi = require("joi");
+const { courseSchema } = require("./schemas.js");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
@@ -29,6 +30,16 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
+const validateCourse = (req, res, next) => {
+  const { error } = courseSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
 app.get("/", (req, res) => {
   res.render("home");
 });
@@ -47,21 +58,8 @@ app.get("/golfcourses/new", (req, res) => {
 
 app.post(
   "/golfcourses",
+  validateCourse,
   catchAsync(async (req, res, next) => {
-    const courseSchema = Joi.object({
-      course: Joi.object({
-        name: Joi.string().required(),
-        image: Joi.string().required(),
-        location: Joi.string().required(),
-        description: Joi.string().required(),
-        price: Joi.number().required().min(0),
-      }).required(),
-    });
-    const { error } = courseSchema.validate(req.body);
-    if (error) {
-      const msg = error.details.map((el) => el.message).join(",");
-      throw new ExpressError(msg, 400);
-    }
     const course = new Course(req.body.course);
     await course.save();
     res.redirect(`/golfcourses/${course._id}`);
@@ -86,6 +84,7 @@ app.get(
 
 app.put(
   "/golfcourses/:id",
+  validateCourse,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const course = await Course.findByIdAndUpdate(id, { ...req.body.course });
