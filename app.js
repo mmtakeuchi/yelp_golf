@@ -2,6 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
+const Joi = require("joi");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
@@ -47,6 +48,20 @@ app.get("/golfcourses/new", (req, res) => {
 app.post(
   "/golfcourses",
   catchAsync(async (req, res, next) => {
+    const courseSchema = Joi.object({
+      course: Joi.object({
+        name: Joi.string().required(),
+        image: Joi.string().required(),
+        location: Joi.string().required(),
+        description: Joi.string().required(),
+        price: Joi.number().required().min(0),
+      }).required(),
+    });
+    const { error } = courseSchema.validate(req.body);
+    if (error) {
+      const msg = error.details.map((el) => el.message).join(",");
+      throw new ExpressError(msg, 400);
+    }
     const course = new Course(req.body.course);
     await course.save();
     res.redirect(`/golfcourses/${course._id}`);
@@ -92,8 +107,9 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  const { message = "Something Went Wrong!", statusCode = 500 } = err;
-  res.status(statusCode).send(message);
+  const { statusCode = 500 } = err;
+  if (!err.message) err.message = "Something went wrong!";
+  res.status(statusCode).render("error", { err });
 });
 
 app.listen(3000, () => {
