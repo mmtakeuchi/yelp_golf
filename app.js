@@ -7,7 +7,7 @@ const { courseSchema } = require("./schemas.js");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
-const Course = require("./models/golf_course");
+const Course = require("./models/course");
 
 mongoose.connect("mongodb://localhost:27017/yelp-golf", {
   useNewUrlParser: true,
