@@ -3,11 +3,12 @@ const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
 const Joi = require("joi");
-const { courseSchema } = require("./schemas.js");
+const { courseSchema, reviewSchema } = require("./schemas.js");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
 const Course = require("./models/course");
+const Review = require("./models/review");
 
 mongoose.connect("mongodb://localhost:27017/yelp-golf", {
   useNewUrlParser: true,
@@ -32,6 +33,16 @@ app.use(methodOverride("_method"));
 
 const validateCourse = (req, res, next) => {
   const { error } = courseSchema.validate(req.body);
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+};
+
+const validateReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(msg, 400);
@@ -69,7 +80,7 @@ app.post(
 app.get(
   "/golfcourses/:id",
   catchAsync(async (req, res) => {
-    const course = await Course.findById(req.params.id);
+    const course = await Course.findById(req.params.id).populate("reviews");
     res.render("golf_courses/show", { course });
   })
 );
@@ -98,6 +109,18 @@ app.delete(
     const { id } = req.params;
     await Course.findByIdAndDelete(id);
     res.redirect("/golfcourses");
+  })
+);
+
+app.post(
+  "/golfcourses/:id/reviews",
+  catchAsync(async (req, res) => {
+    const course = await Course.findById(req.params.id);
+    const review = new Review(req.body.review);
+    course.reviews.push(review);
+    review.save();
+    course.save();
+    res.redirect(`/golfcourses/${course._id}`);
   })
 );
 
