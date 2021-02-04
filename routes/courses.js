@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const { courseSchema } = require("../schemas.js");
+const { isLoggedIn } = require("./middleware");
 
 const ExpressError = require("../utils/ExpressError");
 const Course = require("../models/course");
+const { isValidObjectId } = require("mongoose");
 
 const validateCourse = (req, res, next) => {
   const { error } = courseSchema.validate(req.body);
@@ -24,12 +26,13 @@ router.get(
   })
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("courses/new");
 });
 
 router.post(
   "/",
+  isLoggedIn,
   validateCourse,
   catchAsync(async (req, res, next) => {
     const course = new Course(req.body.course);
@@ -53,6 +56,7 @@ router.get(
 
 router.get(
   "/:id/edit",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) {
@@ -65,6 +69,7 @@ router.get(
 
 router.put(
   "/:id",
+  isLoggedIn,
   validateCourse,
   catchAsync(async (req, res) => {
     const { id } = req.params;
