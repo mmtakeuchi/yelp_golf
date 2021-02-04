@@ -10,6 +10,9 @@
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted"><%= course.location%></li>
+        <li class="list-group-item">
+          Submitted by: <%= course.author.username %>
+        </li>
         <li class="list-group-item">$<%= course.price%></li>
       </ul>
       <div class="card-body">

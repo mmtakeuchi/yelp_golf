@@ -36,6 +36,7 @@ router.post(
   validateCourse,
   catchAsync(async (req, res, next) => {
     const course = new Course(req.body.course);
+    course.author = req.user._id;
     await course.save();
     req.flash("success", "Successfully added golf course");
     res.redirect(`/courses/${course._id}`);
@@ -45,7 +46,10 @@ router.post(
 router.get(
   "/:id",
   catchAsync(async (req, res) => {
-    const course = await Course.findById(req.params.id).populate("reviews");
+    const course = await Course.findById(req.params.id)
+      .populate("reviews")
+      .populate("author");
+    console.log(course);
     if (!course) {
       req.flash("error", "Cannot find that golf course!");
       return res.redirect("/courses");
