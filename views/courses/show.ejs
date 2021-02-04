@@ -13,14 +13,12 @@
         <li class="list-group-item">$<%= course.price%></li>
       </ul>
       <div class="card-body">
-        <a
-          class="card-link btn btn-info"
-          href="/golfcourses/<%=course._id%>/edit"
+        <a class="card-link btn btn-info" href="/courses/<%=course._id%>/edit"
           >Edit</a
         >
         <form
           class="d-inline"
-          action="/golfcourses/<%=course._id%>?_method=DELETE"
+          action="/courses/<%=course._id%>?_method=DELETE"
           method="POST"
         >
           <button class="btn btn-danger">Delete</button>
@@ -33,7 +31,7 @@
     <h2>Leave a Review</h2>
     <form
       class="mb-3 validated-form"
-      action="/golfcourses/<%=course._id%>/reviews"
+      action="/courses/<%=course._id%>/reviews"
       method="POST"
       novalidate
     >
@@ -67,7 +65,7 @@
         <h5 class="card-title">Rating: <%= review.rating %></h5>
         <p class="card-text">Review: <%= review.body %></p>
         <form
-          action="/golfcourses/<%=course.id%>/reviews/<%=review._id%>?_method=DELETE"
+          action="/courses/<%=course.id%>/reviews/<%=review._id%>?_method=DELETE"
           method="POST"
         >
           <button class="btn btn-sm btn-danger">Delete</button>

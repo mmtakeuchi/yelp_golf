@@ -1,7 +1,7 @@
 <% layout('layouts/boilerplate') %>
 <h1>All Golf Courses</h1>
 <div>
-  <a href="/golfcourses/new">Add Golf Course</a>
+  <a href="/courses/new">Add Golf Course</a>
 </div>
 <% for (let course of courses){%>
 <div class="card" mb-3>
@@ -16,7 +16,7 @@
         <p class="card-text">
           <small class="text-muted"><%= course.location%></small>
         </p>
-        <a class="btn btn-primary" href="/golfcourses/<%=course._id%>"
+        <a class="btn btn-primary" href="/courses/<%=course._id%>"
           >View <%=course.name%></a
         >
       </div>

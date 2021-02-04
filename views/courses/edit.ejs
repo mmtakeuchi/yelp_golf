@@ -1,8 +1,13 @@
 <% layout('layouts/boilerplate') %>
 <div class="row">
-  <h1 class="text-center">Add Golf Course</h1>
+  <h1 class="text-center">Update Golf Course</h1>
   <div class="col-6 offset-3">
-    <form action="/golfcourses" method="POST" novalidate class="validated-form">
+    <form
+      action="/courses/<%=course._id%>?_method=PUT"
+      method="POST"
+      novalidate
+      class="validated-form"
+    >
       <div class="mb-3">
         <label class="form-label" for="name">Name</label>
         <input
@@ -10,16 +15,18 @@
           type="text"
           id="name"
           name="course[name]"
+          value="<%=course.name %>"
           required
         />
       </div>
       <div class="mb-3">
-        <label class="form-label" for="image">Image</label>
+        <label class="form-label" for="image">Image Url</label>
         <input
           class="form-control"
           type="text"
           id="image"
           name="course[image]"
+          value="<%=course.image %>"
           required
         />
       </div>
@@ -31,7 +38,9 @@
           id="description"
           name="course[description]"
           required
-        ></textarea>
+        >
+<%= course.description%></textarea
+        >
       </div>
       <div class="mb-3">
         <label class="form-label" for="location">Location</label>
@@ -40,9 +49,11 @@
           type="text"
           id="location"
           name="course[location]"
+          value="<%=course.location %>"
           required
         />
       </div>
+
       <div class="mb-3">
         <label class="form-label" for="price">Tee Price</label>
         <div class="input-group">
@@ -55,15 +66,15 @@
             aria-label="price"
             aria-describedby="price-label"
             name="course[price]"
+            value="<%=course.price %>"
             required
           />
         </div>
       </div>
       <div class="mb-3">
-        <button class="btn btn-primary">Add Golf Course</button>
+        <button class="btn btn-info">Update Golf Course</button>
       </div>
     </form>
-
-    <div><a href="/golfcourses">Back to Golf Courses</a></div>
+    <a href="/courses/<%= course._id%>">Back To Golf Course</a>
   </div>
 </div>

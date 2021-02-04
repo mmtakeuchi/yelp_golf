@@ -4,7 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const { courseSchema } = require("../schemas.js");
 
 const ExpressError = require("../utils/ExpressError");
-const Coourse = require("../models/course");
+const Course = require("../models/course");
 
 const validateCourse = (req, res, next) => {
   const { error } = courseSchema.validate(req.body);
@@ -19,13 +19,13 @@ const validateCourse = (req, res, next) => {
 router.get(
   "/",
   catchAsync(async (req, res) => {
-    const course = await Course.find({});
-    res.render("golf_courses/index", { course });
+    const courses = await Course.find({});
+    res.render("courses/index", { courses });
   })
 );
 
 router.get("/new", (req, res) => {
-  res.render("golf_course/new");
+  res.render("courses/new");
 });
 
 router.post(
@@ -34,7 +34,7 @@ router.post(
   catchAsync(async (req, res, next) => {
     const course = new Course(req.body.course);
     await course.save();
-    res.redirect(`/golfcourses/${course._id}`);
+    res.redirect(`/courses/${course._id}`);
   })
 );
 
@@ -43,9 +43,9 @@ router.get(
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id).populate("reviews");
     if (!course) {
-      return res.redirect("/golfcourses");
+      return res.redirect("/courses");
     }
-    res.render("golf_courses/show", { course });
+    res.render("courses/show", { course });
   })
 );
 
@@ -54,9 +54,9 @@ router.get(
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) {
-      return res.redirect("/golfcourses");
+      return res.redirect("/courses");
     }
-    res.render("golf_courses/edit", { course });
+    res.render("courses/edit", { course });
   })
 );
 
@@ -68,7 +68,7 @@ router.put(
     const course = await Course.findByIdAndUpdate(id, {
       ...req.body.course,
     });
-    res.redirect(`/golfcourses/${course._id}`);
+    res.redirect(`/courses/${course._id}`);
   })
 );
 
@@ -77,7 +77,7 @@ router.delete(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Course.findByIdAndDelete(id);
-    res.redirect("/golfcourses");
+    res.redirect("/courses");
   })
 );
 

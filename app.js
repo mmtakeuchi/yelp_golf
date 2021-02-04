@@ -2,7 +2,7 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
-const { courseSchema } = require("./schemas.js");
+const session = require("express-session");
 const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
 
@@ -13,6 +13,7 @@ mongoose.connect("mongodb://localhost:27017/yelp-golf", {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
 });
 
 const db = mongoose.connection;
@@ -29,19 +30,22 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "public")));
 
-const validateCourse = (req, res, next) => {
-  const { error } = courseSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
+const sessionConfig = {
+  secret: "somesecret",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+  },
 };
+app.use(session(sessionConfig));
 
-app.use("/golfcourses", courses);
-app.use("/golfcourses/:id/reviews", reviews);
+app.use("/courses", courses);
+app.use("/courses/:id/reviews", reviews);
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -53,7 +57,7 @@ app.all("*", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
-  if (!err.message) err.message = "Something went wrong!";
+  if (!err.message) err.message = "Oh No, Something Went Wrong!";
   res.status(statusCode).render("error", { err });
 });
 
