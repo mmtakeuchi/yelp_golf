@@ -44,6 +44,7 @@ router.get(
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id).populate("reviews");
     if (!course) {
+      req.flash("error", "Cannot find that golf course!");
       return res.redirect("/courses");
     }
     res.render("courses/show", { course });
@@ -55,6 +56,7 @@ router.get(
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) {
+      req.flash("error", "Cannot find that golf course!");
       return res.redirect("/courses");
     }
     res.render("courses/edit", { course });
@@ -69,6 +71,7 @@ router.put(
     const course = await Course.findByIdAndUpdate(id, {
       ...req.body.course,
     });
+    req.flash("success", "Successfully updated golf course!");
     res.redirect(`/courses/${course._id}`);
   })
 );
@@ -78,6 +81,7 @@ router.delete(
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Course.findByIdAndDelete(id);
+    req.flash("success", "Successfully deleted golf course");
     res.redirect("/courses");
   })
 );

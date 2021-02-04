@@ -28,7 +28,8 @@ router.post(
     course.reviews.push(review);
     await review.save();
     await course.save();
-    res.redirect(`/golfcourses/${course._id}`);
+    req.flash("success", "Added new golf course!");
+    res.redirect(`/courses/${course._id}`);
   })
 );
 
@@ -38,7 +39,8 @@ router.delete(
     const { id, reviewId } = req.params;
     await Course.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/golfcourses/${id}`);
+    req.flash("success", "Successfully deleted review");
+    res.redirect(`/courses/${id}`);
   })
 );
 
