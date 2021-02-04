@@ -34,6 +34,7 @@ router.post(
   catchAsync(async (req, res, next) => {
     const course = new Course(req.body.course);
     await course.save();
+    req.flash("success", "Successfully added golf course");
     res.redirect(`/courses/${course._id}`);
   })
 );
