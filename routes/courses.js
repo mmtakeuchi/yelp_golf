@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const courses = require("../controllers/courseController");
+const courses = require("../controllers/coursesController");
 const catchAsync = require("../utils/catchAsync");
 const { isLoggedIn, isAuthor, validateCourse } = require("../middleware");
 
