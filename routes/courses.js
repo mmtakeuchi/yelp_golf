@@ -36,7 +36,12 @@ router.get(
   isLoggedIn,
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id)
-      .populate("reviews")
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "author",
+        },
+      })
       .populate("author");
     console.log(course);
     if (!course) {
