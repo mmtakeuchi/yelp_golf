@@ -1,25 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const { courseSchema } = require("../schemas.js");
-const { isLoggedIn } = require("./middleware");
+const { isLoggedIn, isAuthor, validateCourse } = require("../middleware");
 
-const ExpressError = require("../utils/ExpressError");
 const Course = require("../models/course");
-const { isValidObjectId } = require("mongoose");
-
-const validateCourse = (req, res, next) => {
-  const { error } = courseSchema.validate(req.body);
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-};
 
 router.get(
   "/",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const courses = await Course.find({});
     res.render("courses/index", { courses });
@@ -45,6 +33,7 @@ router.post(
 
 router.get(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id)
       .populate("reviews")
@@ -61,6 +50,7 @@ router.get(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const course = await Course.findById(req.params.id);
     if (!course) {
@@ -74,6 +64,7 @@ router.get(
 router.put(
   "/:id",
   isLoggedIn,
+  isAuthor,
   validateCourse,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -87,6 +78,8 @@ router.put(
 
 router.delete(
   "/:id",
+  isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Course.findByIdAndDelete(id);
