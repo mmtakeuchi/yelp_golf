@@ -2,7 +2,13 @@
 <div class="row">
   <h1 class="text-center">Add Golf Course</h1>
   <div class="col-6 offset-3">
-    <form action="/courses" method="POST" novalidate class="validated-form">
+    <form
+      action="/courses"
+      method="POST"
+      novalidate
+      class="validated-form"
+      enctype="multipart/form-data"
+    >
       <div class="mb-3">
         <label class="form-label" for="name">Name</label>
         <input
@@ -13,7 +19,8 @@
           required
         />
       </div>
-      <div class="mb-3">
+      <input type="file" name="image" multiple />
+      <!-- <div class="mb-3">
         <label class="form-label" for="image">Image</label>
         <input
           class="form-control"
@@ -22,7 +29,7 @@
           name="course[image]"
           required
         />
-      </div>
+      </div> -->
       <div class="mb-3">
         <label class="form-label" for="description">Description</label>
         <textarea
