@@ -4,18 +4,20 @@ const courses = require("../controllers/coursesController");
 const catchAsync = require("../utils/catchAsync");
 const { isLoggedIn, isAuthor, validateCourse } = require("../middleware");
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+const { storage } = require("../cloudinary");
+const upload = multer({ storage });
 
 const Course = require("../models/course");
 
 router
   .route("/")
   .get(catchAsync(courses.index))
-  // .post(isLoggedIn, validateCourse, catchAsync(courses.createCourse));
-  .post(upload.array("image"), (req, res) => {
-    console.log(req.body, req.files);
-    res.send("It Worked!");
-  });
+  .post(
+    isLoggedIn,
+    upload.array("image"),
+    validateCourse,
+    catchAsync(courses.createCourse)
+  );
 
 router.get("/new", isLoggedIn, courses.renderNewForm);
 
