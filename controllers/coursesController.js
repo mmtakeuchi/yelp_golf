@@ -1,5 +1,8 @@
 const Course = require("../models/course");
 const { cloudinary } = require("../cloudinary");
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 
 module.exports.index = async (req, res) => {
   const courses = await Course.find({});
@@ -11,7 +14,14 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCourse = async (req, res, next) => {
+  const geoData = await geocoder
+    .forwardGeocode({
+      query: req.body.course.location,
+      limit: 1,
+    })
+    .send();
   const course = new Course(req.body.course);
+  course.geometry = geoData.body.features[0].geometry;
   course.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   course.author = req.user._id;
   await course.save();
