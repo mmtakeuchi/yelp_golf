@@ -1,4 +1,5 @@
 const Course = require("../models/course");
+const { cloudinary } = require("../cloudinary");
 
 module.exports.index = async (req, res) => {
   const courses = await Course.find({});
@@ -52,6 +53,15 @@ module.exports.updateCourse = async (req, res) => {
   });
   const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   course.images.push(...imgs);
+  await course.save();
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      await cloudinary.uploader.destroy(filename);
+    }
+    await course.updateOne({
+      $pull: { images: { filename: { $in: req.body.deleteImages } } },
+    });
+  }
   req.flash("success", "Successfully updated course!");
   res.redirect(`/courses/${course._id}`);
 };
