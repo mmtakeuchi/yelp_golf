@@ -3,8 +3,6 @@
 
 <div class="row">
   <div class="col-6">
-    <div id="map" style="width: 400px; height: 300px"></div>
-
     <div id="courseControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% course.images.forEach((img, i) => { %>
@@ -63,8 +61,11 @@
       <div class="card-footer text-muted">2 days ago</div>
     </div>
   </div>
-  <% if(currentUser){ %>
+
   <div class="col-6">
+    <div id="map" style="width: 400px; height: 300px"></div>
+
+    <% if(currentUser){ %>
     <h2>Leave a Review</h2>
     <form
       class="mb-3 validated-form"
