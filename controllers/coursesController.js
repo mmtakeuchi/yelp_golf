@@ -50,6 +50,8 @@ module.exports.updateCourse = async (req, res) => {
   const course = await Course.findByIdAndUpdate(id, {
     ...req.body.course,
   });
+  const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  course.images.push(...imgs);
   req.flash("success", "Successfully updated course!");
   res.redirect(`/courses/${course._id}`);
 };

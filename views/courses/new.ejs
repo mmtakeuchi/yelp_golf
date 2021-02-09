@@ -19,23 +19,6 @@
           required
         />
       </div>
-      <input
-        type="file"
-        class="form-file-input"
-        id="image"
-        name="image"
-        multiple
-      />
-      <!-- <div class="mb-3">
-        <label class="form-label" for="image">Image</label>
-        <input
-          class="form-control"
-          type="text"
-          id="image"
-          name="course[image]"
-          required
-        />
-      </div> -->
       <div class="mb-3">
         <label class="form-label" for="description">Description</label>
         <textarea
@@ -69,6 +52,17 @@
             aria-describedby="price-label"
             name="course[price]"
             required
+          />
+        </div>
+      </div>
+      <div class="mb-3">
+        <div class="input-group form-file custom-file">
+          <input
+            type="file"
+            class="form-control form-file-input"
+            id="image"
+            name="image"
+            multiple
           />
         </div>
       </div>

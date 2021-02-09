@@ -24,7 +24,13 @@ router.get("/new", isLoggedIn, courses.renderNewForm);
 router
   .route("/:id")
   .get(catchAsync(courses.showCourse))
-  .put(isLoggedIn, isAuthor, validateCourse, catchAsync(courses.updateCourse))
+  .put(
+    isLoggedIn,
+    isAuthor,
+    upload.array("image"),
+    validateCourse,
+    catchAsync(courses.updateCourse)
+  )
   .delete(isLoggedIn, isAuthor, catchAsync(courses.deleteCourse));
 
 router.get(
