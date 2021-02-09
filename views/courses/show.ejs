@@ -3,6 +3,8 @@
 
 <div class="row">
   <div class="col-6">
+    <div id="map" style="width: 400px; height: 300px"></div>
+
     <div id="courseControls" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <% course.images.forEach((img, i) => { %>
@@ -70,10 +72,6 @@
       method="POST"
       novalidate
     >
-      <!-- <div class="mb-3">
-                <label class="form-label" for="rating">Rating</label>
-                <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
-            </div> -->
       <fieldset class="starability-basic">
         <input
           type="radio"
@@ -130,3 +128,9 @@
     <% } %>
   </div>
 </div>
+
+<script>
+  const mapToken = "<%-process.env.MAPBOX_TOKEN%>";
+</script>
+
+<script src="/javascripts/showPageMap.js"></script>
