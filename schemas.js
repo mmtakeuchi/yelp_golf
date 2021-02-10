@@ -1,4 +1,4 @@
-const Joi = require("Joi");
+const BaseJoi = require("Joi");
 const sanitizeHtml = require("sanitize-html");
 
 const extension = (joi) => ({
