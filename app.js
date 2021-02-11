@@ -20,11 +20,9 @@ const MongoStore = require("connect-mongo")(session);
 const userRoutes = require("./routes/users");
 const courseRoutes = require("./routes/courses");
 const reviewRoutes = require("./routes/reviews");
-// const dbUrl = process.env.DB_URL;
-// "mongodb://localhost:27017/yelp-golf"
 
-// mongoose.connect(dbUrl, {
-mongoose.connect("mongodb://localhost:27017/yelp-golf", {
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/yelp-golf";
+mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useUnifiedTopology: true,
@@ -52,9 +50,10 @@ app.use(
   })
 );
 
+const secret = process.env.SECRET || "somesecret!";
 const store = new MongoStore({
-  url: "mongodb://localhost:27017/yelp-golf",
-  secret: "somesecret!",
+  url: dbUrl,
+  secret: secret,
   touchAfter: 24 * 60 * 60,
 });
 
@@ -64,7 +63,7 @@ store.on("error", function (e) {
 
 const sessionConfig = {
   name: "golfing",
-  secret: "somesecret!",
+  secret: secret,
   resave: false,
   saveUninitialized: true,
   cookie: {
