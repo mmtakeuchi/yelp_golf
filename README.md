@@ -6,9 +6,9 @@ YelpGolf is a social site used to view golf courses around the world. Users can 
 
 <a href="https://salty-spire-23187.herokuapp.com/">YelpGolf</a>
 
-<img src="/Users/mmtakeuchi/Pictures/yelpgolf-home.png">
-<img src="/Users/mmtakeuchi/Pictures/yelpgolf-courses.png">
-<img src="/Users/mmtakeuchi/Pictures/yelpgolf-show.png">
+<img src="/public/assets/yelpgolf-home.png">
+<img src="/public/assets/yelpgolf-courses.png">
+<img src="/public/assets/yelpgolf-show.png">
 
 ## Installation
 
